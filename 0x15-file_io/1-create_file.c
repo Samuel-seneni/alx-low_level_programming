@@ -1,32 +1,29 @@
 #include "main.h"
-#include <stdlib.h>
+
 /**
- * read_textfile - read text file print to stdout.
- * @letters: number of letters
- * @filename: file being read.
- * Return: actual number of bytes.
+ * create_file - create and write into a file.
+ * @filename: the filename to be created
+ * @text_content: the content to be copied into the file
+ * Return: 1 if successful or -1 if failed
  */
-ssize_t read_textfile(const char *filename, size_t letters)
+int create_file(const char *filename, char *text_content)
 {
-	char *buf;
-	ssize_t fd;
-	ssize_t r, w;
+	int fd;
+	int no_letters;
+	int rwr;
 
 	if (!filename)
-		return (0);
-	fd = open(filename, O_RDONLY);
-
+		return (-1);
+	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0600);
 	if (fd == -1)
-		return (0);
-
-	buf = malloc(sizeof(char) * letters);
-	if (buf == NULL)
-		return (0);
-
-	r = read(fd, buf, letters);
-	w = write(STDOUT_FILENO, buf, r);
-
-	free(buf);
+		return (-1);
+	if (text_content == NULL)
+		text_content = "";
+	for (no_letters = 0; text_content[no_letters]; no_letters++)
+		;
+	rwr = write(fd, text_content, no_letters);
+	if (rwr == -1)
+		return (-1);
 	close(fd);
-	return (w);
+	return (1);
 }
