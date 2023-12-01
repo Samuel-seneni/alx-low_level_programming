@@ -4,7 +4,7 @@
  * hash_table_print - print the hash table
  * @ht: pointer the hash table to print
  *
- * Description: print the key/value in the order that 
+ * Description: print the key/value in the order that
  * they appear in the array of hash table
  */
 void hash_table_print(const hash_table_t *ht)
